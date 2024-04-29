@@ -1,0 +1,374 @@
+@font-face {
+  font-family: "Digital";
+  src: url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.eot");
+  src: url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.woff") format("woff"), url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/8e22783d707ad140bffe18b2a3812529.svg#Digital-7") format("svg");
+}
+#Calculator {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #232323;
+  min-width: 340px;
+  max-height: 500px;
+  border-radius: 7px;
+  padding: 15px 12px;
+}
+#Calculator #Section_i {
+  display: grid;
+  grid-template-columns: 260px;
+  grid-template-rows: 90px 1fr;
+  height: -moz-min-content;
+  height: min-content;
+  max-width: 320px;
+  grid-column: 1/2;
+  grid-row: 1/3;
+  padding: 5px 0px;
+  background: #232323;
+  border-radius: 7px;
+}
+#Calculator #Section_i #Display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: -moz-min-content;
+  height: min-content;
+  width: 100%;
+  padding: 0px 7px 5px 12px;
+}
+#Calculator #Section_i #Display h3, #Calculator #Section_i #Display h4 {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  height: 40px;
+  width: 100%;
+  padding: 5px 10px;
+  background: #411557;
+  color: #28e590;
+  letter-spacing: 2px;
+  font-family: digital;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 24px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  transition: 200ms ease-out;
+}
+#Calculator #Section_i #Display h3 span.space, #Calculator #Section_i #Display h4 span.space {
+  padding: 0px 7px;
+}
+#Calculator #Section_i #Display h3 span.space i, #Calculator #Section_i #Display h4 span.space i {
+  display: inline-block;
+  height: 10px;
+  width: 5px;
+}
+#Calculator #Section_i #Display h4 {
+  height: 30px;
+  font-size: 18px;
+  background: #280d36;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+#Calculator #Section_i #Display h4 .context {
+  display: flex;
+  justify-content: right;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  color: #f4a784;
+}
+#Calculator #Section_i #Display h4 #delete_step {
+  color: #FFF !important;
+  transition: 200ms ease-out;
+  padding-left: 10px;
+}
+#Calculator #Section_i #Display h4 #delete_step:hover {
+  cursor: pointer;
+  color: #e43351 !important;
+  transition: 200ms ease-in;
+}
+#Calculator #Section_i #KeyPad {
+  display: grid;
+  grid-template-columns: repeat(4, 60px);
+  grid-template-rows: repeat(5, 60px);
+  align-self: center;
+  align-content: center;
+  justify-self: center;
+  justify-items: center;
+  grid-gap: 5px;
+  height: 320px;
+  width: 250px;
+}
+#Calculator #Section_i #KeyPad .keypad_btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #626262;
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  color: #FFF;
+  font-family: "Saira", sans-serif;
+  font-size: 30px;
+  text-shadow: 1px 1px 8px #404040;
+  transition: 200ms ease-out;
+}
+#Calculator #Section_i #KeyPad .keypad_btn:hover {
+  transition: 200ms ease-in;
+  background: #525252;
+  color: #EDBC28;
+}
+#Calculator #Section_i #KeyPad .number.tapped {
+  border: 5px solid #D8B755;
+  text-shadow: 1px 1px 18px #404040;
+  background: #EDBC28;
+  font-size: 36px;
+  color: #626262;
+  transition: 200ms ease-in-out;
+}
+#Calculator #Section_i #KeyPad .method {
+  background: #494949;
+}
+#Calculator #Section_i #KeyPad .method:hover {
+  color: #28e590 !important;
+}
+#Calculator #Section_i #KeyPad .method.tapped {
+  border: 5px solid #389169;
+  background: #22714e;
+  font-size: 40px;
+  color: #FFF;
+  padding-bottom: 5px;
+  transition: 200ms ease-in-out;
+}
+#Calculator #Section_i #KeyPad #decimal:hover {
+  color: #409bf6 !important;
+}
+#Calculator #Section_i #KeyPad #decimal.tapped {
+  border: 5px solid #2887e5;
+  background: #2479ce;
+  font-size: 40px;
+  color: #FFF;
+  transition: 200ms ease-in-out;
+}
+#Calculator #Section_i #KeyPad #clear {
+  grid-column: 1/3;
+  grid-row: 1/2;
+  background: #ac2038;
+  color: #FFF !important;
+}
+#Calculator #Section_i #KeyPad #clear:hover {
+  transition: 200ms ease-in;
+  background: #d32743;
+}
+#Calculator #Section_i #KeyPad #equals {
+  grid-column: 4/5;
+  grid-row: 4/6;
+  background: #c96130;
+  color: #FFF !important;
+  font-size: 36px;
+  font-weight: 600;
+}
+#Calculator #Section_i #KeyPad #equals:hover {
+  transition: 200ms ease-in;
+  background: #df703c;
+}
+#Calculator #Section_i #KeyPad #zero {
+  grid-column: 1/3;
+  grid-row: 5/6;
+}
+#Calculator #Section_ii {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 5px 2px;
+  width: 40px;
+  margin-left: 12px;
+  transition: 450ms ease-out;
+}
+#Calculator #Section_ii .history_container {
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+  width: 0%;
+  max-height: 410px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: relative;
+  transition: 450ms ease-out;
+}
+#Calculator #Section_ii .history_container .list_of_prv_operations {
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+  width: 0%;
+  opacity: 0%;
+  transition: 250ms ease-out;
+}
+#Calculator #Section_ii .history_container .list_of_prv_operations .history_item:nth-child(odd) {
+  background: #90b2b5;
+}
+#Calculator #Section_ii .history_container .list_of_prv_operations .history_item:nth-child(even) {
+  background: #93b6ad;
+}
+#Calculator #Section_ii .history_container .list_of_prv_operations .history_item {
+  display: block;
+  height: -moz-min-content;
+  height: min-content;
+  opacity: 0%;
+  width: 100%;
+  padding: 5px;
+  font-family: "Courier New", Courier, monospace;
+  color: #605499;
+}
+#Calculator #Section_ii .history_container .list_of_prv_operations .history_item p {
+  display: block;
+  width: 210px;
+}
+#Calculator #Section_ii .history_container .list_of_prv_operations .history_item .transaction {
+  color: #3c3c3c;
+  font-family: monospace;
+  font-size: small;
+  font-weight: 400;
+}
+#Calculator #Section_ii .history_container .list_of_prv_operations .history_item .item_ans, #Calculator #Section_ii .history_container .list_of_prv_operations .history_item .item_opr {
+  text-indent: 5px;
+  padding: 1px 1px;
+  font-weight: 700;
+}
+#Calculator #Section_ii .history_container .list_of_prv_operations .history_item .item_ans {
+  color: #126955;
+}
+#Calculator #Section_ii .history_container .list_of_prv_operations .history_item .item_ans i {
+  margin-right: 8px;
+  opacity: 50%;
+}
+#Calculator #Section_ii .history_container .list_of_prv_operations .history_item .item_opr {
+  color: #72521c;
+  text-align: right;
+  font-size: small;
+}
+#Calculator #Section_ii .history_container .list_of_prv_operations .notify {
+  display: block;
+  height: -moz-min-content;
+  height: min-content;
+  opacity: 0%;
+  text-align: center;
+  width: 100%;
+  padding: 5px;
+  font-family: "Victor Mono", monospace;
+  font-size: 8px;
+  color: #83a59c;
+  transform: translateY(190px);
+}
+#Calculator #Section_ii .history_container #remove_history {
+  cursor: pointer;
+  display: inline-block;
+  height: 0%;
+  width: 0%;
+  opacity: 0%;
+  position: absolute;
+  left: 3px;
+  bottom: 3px;
+  font-family: monospace;
+  font-size: smaller;
+  color: #afafaf;
+  background: #3b3b3b;
+  border: none;
+  border-radius: 50px;
+  border-bottom-left-radius: 10px;
+  padding: 5px;
+  opacity: 50%;
+  transition: 250ms ease-out;
+}
+#Calculator #Section_ii label {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  min-height: 100%;
+  height: 100%;
+  width: 40px;
+  background: #5a5a5a;
+  font-family: "Victor Mono", monospace;
+  color: #FFF;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 2px;
+  border-radius: 5px;
+  border-left: 5px solid #7d7d7d;
+  transition: 250ms ease-out;
+}
+#Calculator #Section_ii label span {
+  display: inline-block;
+  text-transform: capitalize;
+  opacity: 90%;
+}
+#Calculator #Section_ii label .fa-forward {
+  font-size: 12px;
+  opacity: 30%;
+  transition: 500ms ease-in-out;
+}
+#Calculator #Section_ii label:hover {
+  background: #286262;
+  border-left: 5px solid #afafaf;
+  transition: 250ms ease-in;
+}
+#Calculator #Section_ii label:hover .fa-forward {
+  opacity: 80%;
+}
+#Calculator #Section_ii #history:checked + .history_container {
+  width: 260px;
+  background: #c5c5c5;
+  transition: 450ms ease-in;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+#Calculator #Section_ii #history:checked + .history_container .list_of_prv_operations {
+  height: 100%;
+  width: 100%;
+  opacity: 100%;
+  transition: 250ms ease-in;
+}
+#Calculator #Section_ii #history:checked + .history_container .notify, #Calculator #Section_ii #history:checked + .history_container .history_item {
+  opacity: 100%;
+}
+#Calculator #Section_ii #history:checked + .history_container #remove_history {
+  display: block;
+  height: 30px;
+  width: 30px;
+  opacity: 100%;
+  transition: 250ms ease-in;
+}
+#Calculator #Section_ii #history:checked + .history_container #remove_history:hover {
+  transition: 250ms ease-in;
+  opacity: 100%;
+  color: #FFF;
+  background: #222;
+}
+#Calculator #Section_ii #history:checked ~ label {
+  background: #286262;
+  border-left: none;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  transition: 250ms ease-in;
+}
+#Calculator #Section_ii #history:checked ~ label .fwd_i {
+  transform: rotate(180deg);
+  transition: 500ms ease-in;
+}
+#Calculator #Section_ii #history:checked ~ label .fwd_ii {
+  transform: rotate(-180deg);
+  transition: 500ms ease-in;
+}
+#Calculator #Section_ii.extend {
+  transition: 450ms ease-in;
+  width: 265px;
+  padding-right: 5px;
+}/*# sourceMappingURL=App.css.map */
