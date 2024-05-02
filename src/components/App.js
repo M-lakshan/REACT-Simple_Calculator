@@ -8,38 +8,26 @@ class App extends React.Component {
     super(props);
     this.state = {
       history: {
-        list: [{opr: "12+1",ans:"13"},{opr: "12+1",ans:"13"},]
+        list: [{opr: "12+1",ans:"13"}]
       }
-    }
-  }
-  
-  expandHistory(val) {
-    try {
-      // this.setState(
-      //   {...this.state, 
-      //     history: {
-      //       ...this.state.history,
-      //       expanded: val
-      //     }
-      //   }
-      // );
-    } catch (ex) {
-      console.log(ex);
     }
   }
 
   updateHistory(val) {
-    let new_history = [...this.state.history["list"]];
-    new_history.push(val);
-
+    let bool = this.state.history["list"].some(hst_obj => JSON.stringify(hst_obj) === JSON.stringify(val));
+    
     try {
-      this.setState(
-        {
-          history: {
-            list: new_history
+      if(!bool) {
+        let new_history = [...this.state.history["list"], val];
+        
+        this.setState(
+          {
+            history: {
+              list: new_history
+            }
           }
-        }
-      );
+        );
+      }
     } catch (ex) {
       console.log(ex);
     }

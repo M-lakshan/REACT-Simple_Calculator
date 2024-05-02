@@ -50,7 +50,7 @@
         width: 100%;
         padding: 5px 10px;
         background: #411557;
-        color: #28e590;
+        color: #466c5a;
         letter-spacing: 2px;
         font-family: digital;
         font-weight: 400;
@@ -69,6 +69,11 @@
             width: 5px;
           }
         }
+      }
+
+      h3.finalized {
+        color: #28e590;
+        transition: 200ms ease-in;
       }
 
       h4 {
@@ -96,10 +101,29 @@
 
           &:hover {
             cursor: pointer;
-            color: #e43351 !important;
+            color: #ac2038 !important;
             transition: 200ms ease-in;
           }
         }
+
+        #delete_step.empty {
+          color: #411557 !important;
+          transition: 200ms ease-in;
+        }
+      }
+
+      #display {
+        // position: absolute;
+        // z-index: -1;
+        // height: 0%;
+        // width: 0%;
+        // opacity: 0%;
+        // transform: scale(0.5);
+        // margin: -10px 0px;
+      }
+       
+      #display_alt, #operation_alt {
+        display: none; //tempory
       }
     }
     
@@ -178,26 +202,26 @@
       #clear {
         grid-column: 1/3;
         grid-row: 1/2;
-        background: #ac2038;
+        background: #8d3141;
         color: #FFF !important;
 
         &:hover {
           transition: 200ms ease-in;
-          background: #d32743;
+          background: #ac2038;
         }
       }
 
       #equals {
         grid-column: 4/5;
         grid-row: 4/6;
-        background: #c96130;
+        background: #c06e48;
         color: #FFF !important;
         font-size: 36px;
         font-weight: 600;
         
         &:hover {
           transition: 200ms ease-in;
-          background: #df703c;
+          background: #e4703a;
         }
       }
 
@@ -215,6 +239,7 @@
     padding: 5px 2px;
     width: 40px;
     margin-left: 12px;
+    position: relative;
     transition: 450ms ease-out;
 
     .history_container {
@@ -225,7 +250,7 @@
       max-height: 410px;
       overflow-x: hidden;
       overflow-y: scroll;
-      position: relative;
+      // position: relative;
       transition: 450ms ease-out;
 
       .list_of_prv_operations {
@@ -308,8 +333,8 @@
         width: 0%;
         opacity: 0%;
         position: absolute;
-        left: 3px;
-        bottom: 3px;
+        bottom: 10px !important;
+        left: 8px !important;
         font-family: monospace;
         font-size: smaller;
         color: #afafaf;
@@ -318,7 +343,6 @@
         border-radius: 50px;
         border-bottom-left-radius: 10px;
         padding: 5px;
-        opacity: 50%;
         transition: 250ms ease-out;
       }
     }
@@ -387,7 +411,7 @@
         display: block;
         height: 30px;
         width: 30px;
-        opacity: 100%;
+        opacity: 30%;
         transition: 250ms ease-in;
 
         &:hover {

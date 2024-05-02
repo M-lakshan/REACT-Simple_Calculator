@@ -1,5 +1,5 @@
 import React from 'react';
-import { GeneralFuncs, FCCType, StandardType } from '../modules/calculations';
+import { GeneralCalcFuncs } from '../modules/calculations';
 
 class KeyPad extends React.Component {
 
@@ -8,33 +8,66 @@ class KeyPad extends React.Component {
   }
 
   triggerAction(target) {
-    let whl_opr = document.getElementById("operation").querySelector(".context");
-    let lst_chr_type = (['+','÷','-','×','.'].includes(whl_opr.innerHTML[whl_opr.innerHTML.length-1])) ? "method" : "number";
-    let lst_chr = whl_opr.innerHTML[whl_opr.innerHTML.length-1];
-    let tgt_val = GeneralFuncs.retrieveTargetValue(whl_opr.innerHTML,target.innerHTML);
+    let main_display = document.getElementById("display");
+    let backend_opr = document.getElementById("operation_alt");
+    let user_opr = document.getElementById("operation").querySelector(".context");
+    let whl_opr_str = backend_opr.innerHTML;
+    let ext_opr_lst_chr = (whl_opr_str.length>0) ? whl_opr_str[whl_opr_str.length-1] : '';
+    let tgt_val = GeneralCalcFuncs.retrieveTargetValue(whl_opr_str,target.innerHTML);
+    let display_finalized = (main_display.classList.contains("finalized"));
     let context = "";
     
+    setTimeout(() => target.classList.remove("tapped"), 200);
+
     if(["method","number"].includes(target.classList[1])) {
-      target.classList.add("tapped");
 
-        /***** type_diff - standard *****/
-      //context = (lst_chr==="number") ? (whl_opr.innerHTML+tgt_val) : GeneralFuncs.retrieveContextValue(lst_chr,whl_opr.innerHTML,tgt_val); 
-        /***** type_diff - fcc *****/
-      context = (lst_chr_type==="number") ? (whl_opr.innerHTML+tgt_val) : FCCType.retrieveDualmethods(lst_chr,whl_opr.innerHTML,tgt_val); 
-      // whl_opr.innerHTML = context
+      context = (target.classList[1]==="number") ? whl_opr_str+tgt_val : GeneralCalcFuncs.retrieveDualMethods(ext_opr_lst_chr,whl_opr_str,tgt_val); 
 
-      setTimeout(() => target.classList.remove("tapped"), 200);
+      (target.classList[1]==="number" && display_finalized) && main_display.classList.remove("finalized");
 
-        /***** type_diff - standard *****/
-      // this.props.finalizePreview({temp_answer: GeneralFuncs.calculateAnswer(context), whole_operation: context});
-        /***** type_diff - fcc *****/
-      this.props.finalizePrvw({temp_answer: GeneralFuncs.calculateAnswer(context,"fcc"), whole_operation: context});
-    } else {
-      if(target.id==="equals") {
-        // this.props.calc((last_chr==="number") ? (opr.innerHTML+tgt_val) : (opr.innerHTML.substring(0,(opr.innerHTML[opr.innerHTML.length-2]))+tgt_val))
+      if(target.classList[1]==="method" && tgt_val!=='.' && display_finalized) {
+        main_display.classList.remove("finalized");
+        
+        context = (tgt_val==='-') ? "1*"+(main_display.innerHTML[0]==='-' ? main_display.innerHTML : '-'+main_display.innerHTML) : main_display.innerHTML+tgt_val;
+
+        this.props.finalizePrvw({
+          answer: GeneralCalcFuncs.calculateAnswer(main_display.innerHTML),
+          backend_operation: context,
+          user_operation: GeneralCalcFuncs.strMethodConvertion(context,"visible").join('')
+        });
       } else {
-        whl_opr.parentElement.previousElementSibling.innerHTML = "0";
-        whl_opr.innerHTML = "";
+        target.classList.add("tapped");
+        
+        this.props.finalizePrvw({
+          answer: GeneralCalcFuncs.calculateAnswer(context),
+          backend_operation: context,
+          user_operation: GeneralCalcFuncs.strMethodConvertion(context,"visible").join('')
+        });
+      }
+    } else {
+
+      if(target.id==="equals") {
+        let final_ans = GeneralCalcFuncs.calculateAnswer(whl_opr_str);
+        let final_ans_alt = (final_ans[0]==='-') ? final_ans.substring(1,final_ans.length) : final_ans;
+        let opr_finished = GeneralCalcFuncs.GeneralFourMethods.includes(whl_opr_str[whl_opr_str.length-1]);
+      // console.log("equals:",final_ans,final_ans_alt)////////////
+
+        if(whl_opr_str.length>=1 && parseFloat(final_ans_alt)>0 && !opr_finished) {
+          user_opr.parentElement.previousElementSibling.classList.add("finalized");
+
+          this.props.finalizeCalc({
+            ans: final_ans,
+            opr: GeneralCalcFuncs.strMethodConvertion(whl_opr_str,"visible").join('')
+          });
+        }
+      } else {
+        user_opr.parentElement.previousElementSibling.classList.remove("finalized");
+        
+        this.props.finalizePrvw({
+          answer: GeneralCalcFuncs.calculateAnswer("0"),
+          backend_operation: '',
+          user_operation: ''
+        });
       }
     }
   }

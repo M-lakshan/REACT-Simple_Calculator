@@ -9,12 +9,9 @@ class MainWindow extends React.Component {
     this.finalizeCalculation = this.finalizeCalculation.bind(this);
     this.state = {
       preview: {
-        temp_answer: 0,
-        whole_operation: "12.2÷13.5"
-      },
-      calculation: {
-        final_answer: 0,
-        whole_operation: ""
+        answer: 0,
+        user_operation: "",
+        backend_operation: []
       }
     }
   }
@@ -29,24 +26,22 @@ class MainWindow extends React.Component {
 
   finalizeCalculation(val) {
     try {
-      this.setState({...this.state, calculation: val});
+      this.props.updateHistory({
+        opr: val["opr"],
+        ans: val["ans"]
+      })
     } catch (ex) {
       console.log(ex);
     }
   }
 
-  // componentDidUpdate() {
-  //   try {
-  //     this.props.updateHistory({opr: this.state.calculation["final_answer"], ans: this.state.calculation["whole_operation"]});
-  //   } catch (ex) {
-  //     console.log(ex);
-  //   }
-  // }
-
   render() {
     return (
       <div id="Section_i">
-        <Display prvw={this.state.preview}/>        
+        <Display 
+          prvw={this.state.preview}
+          finalizePrvw={(e) => this.updatePreview(e)}
+        />        
         <KeyPad 
           prvw={this.state.preview}
           finalizePrvw={(e) => this.updatePreview(e)}
