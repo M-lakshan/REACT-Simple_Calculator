@@ -4,19 +4,18 @@ import { GeneralCalcFuncs } from '../modules/calculations';
 class Display extends React.Component {
 
   deleteLastStep() {
-    let context_holder = document.getElementById("operation_alt");
-    let context = "";
-    let last_index = 0;
+    let context_holder = document.getElementById("operation").children[0];
+    let opr_stk_arr = this.props.prvw["backend_operation"];
 
     if(context_holder.innerHTML!=='') {
-      last_index = (context_holder.innerHTML[(context_holder.innerHTML.length-2)]==='.') ? 2 : 1;
-      context = context_holder.innerHTML.substring(0,context_holder.innerHTML.length-last_index);
-      context_holder.previousElementSibling.classList.remove("finalized");
+      opr_stk_arr = [...opr_stk_arr.slice(0,opr_stk_arr.length-1)];
+      context_holder.parentElement.previousElementSibling.classList.remove("finalized");
+      console.log(opr_stk_arr)
       
       this.props.finalizePrvw({
-        answer: GeneralCalcFuncs.calculateAnswer((context.length<1) ? 0 : context),
-        backend_operation: context,
-        user_operation: GeneralCalcFuncs.strMethodConvertion(context,"visible").join('')
+        answer: GeneralCalcFuncs.calculateAnswer([...opr_stk_arr]),
+        backend_operation: opr_stk_arr,
+        user_operation: GeneralCalcFuncs.oprationToContext(opr_stk_arr).join('')
       });
     } 
   }
@@ -36,7 +35,6 @@ class Display extends React.Component {
             <i className="fa-solid fa-delete-left"></i>
           </span>
         </h4>
-        <p id="operation_alt" hidden>{this.props.prvw["backend_operation"]}</p>
       </div>
     );
   }

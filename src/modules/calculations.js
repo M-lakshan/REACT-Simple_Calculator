@@ -1,75 +1,91 @@
 export class GeneralCalcFuncs {
   static GeneralFourMethods = ['/','*','+','-'];
 
-  static strMethodConvertion(context_str,type="revert") {
-    let temp_context = context_str.replace(new RegExp(/\+/, 'g'), "_+_");
-      
-    temp_context = temp_context.replace(new RegExp(/-/, 'g'), "_-_");
-    temp_context = temp_context.replace(new RegExp(/\//, 'g'), "_/_");
-    temp_context = temp_context.replace(new RegExp(/\*/, 'g'), "_*_");
+  static oprationToContext(opr_arr) {
 
-    if(type!=="revert") {
-      temp_context = temp_context.replace(new RegExp(/\//, 'g'), "_÷_");
-      temp_context = temp_context.replace(new RegExp(/\*/, 'g'), "_×_");
-    }
-    
-    return temp_context.split('_').filter(elm => elm!=='');
-  }
-
-  static strViseOprationToArray(context_str,type) {
-
-    if(context_str.length>0) {
-      let temp_context = this.strMethodConvertion(context_str,type);
-      let parse = temp_context.map(elm => (this.GeneralFourMethods.includes(elm)) ? 
-        String.fromCharCode(elm.toString().charCodeAt(0)) : parseFloat(elm));
-
-      return parse.reverse();
+    if(opr_arr.length>0) {
+      return opr_arr.map(elm => (this.GeneralFourMethods.includes(elm.toString())) ? 
+        String.fromCharCode(elm.toString().charCodeAt(0)) : 
+        ((parseFloat(elm)<0) ? `(${elm})` : 
+        ((elm.toString().indexOf('.')<0) ? elm : `(${elm})`)));
     } else {
       return [];
     }
   }
 
-  static checkForDecimals(context_str_arr) {
+  static checkForDecimals(context_arr_elm) {
+    let lst_oprnd = context_arr_elm.toString();
     
-    if(context_str_arr.length>0) {
-      let lst_var = context_str_arr;
-      let lst_var_not_num = (this.GeneralFourMethods.includes(lst_var[0].toString()));
+    if(lst_oprnd.length>0) {
+      let lst_chr = lst_oprnd[lst_oprnd.length-1];
+      let lst_var_not_num = (this.GeneralFourMethods.includes(lst_chr));
 
-      return (lst_var_not_num) ? "0." : (lst_var[0].toString().includes('.')) ? '' : '.';
+      return (lst_var_not_num) ? "0." : (lst_oprnd.includes('.')) ? '' : '.';
     } else {
       return "0.";
     }
   }
 
-  static setZeros(context_str_arr) {
+  static setZeros(context_arr_elm) {
+    let lst_oprnd = context_arr_elm.toString();
     
-    if(context_str_arr.length>0) {
-      let last_var = context_str_arr[0].toString();
-      let lst_var_hv_no_decimal = (last_var.indexOf('.')===-1);
-      let lst_chr_is_zero = (last_var.length===1 && last_var==='0');
+    if(lst_oprnd.length>0) {
+      let elm_hv_no_decimal = (lst_oprnd.indexOf('.')===-1);
+      let elm_is_zero = (lst_oprnd.length===1 && context_arr_elm==='');
 
-      return (!lst_var_hv_no_decimal) ? '0' : ((!lst_chr_is_zero) ? '0' : '');
+      return (!elm_hv_no_decimal) ? '0' : ((!elm_is_zero) ? '0' : '');
     } else {
       return '0'
     }
   }
   
-  static retrieveDualMethods(lst_chr,opr_str,appender) {
+  static retrieveDualMethods(opr_arr,lst_elm,prv_length,appender) {
 
-    if(opr_str.length>=2) {
-      let prv_chr = opr_str[opr_str.length-2];
+    console.log((opr_arr.length>=2),prv_length,opr_arr)//////////////////
+    if(opr_arr.length>=2 && prv_length>=2) {
+      let lst_chr = lst_elm.toString();
+      let prv_chr = opr_arr[opr_arr.length-2].toString();
 
       if(this.GeneralFourMethods.includes(lst_chr)) {
         if(this.GeneralFourMethods.includes(prv_chr)) {
-          return (prv_chr===appender) ? opr_str.substring(0,opr_str.length-1) : opr_str.substring(0,opr_str.length-1)+appender;
+          console.log("lst_&_prv_elm_is_a_m")////////////
+          return (prv_chr===appender) ? [...opr_arr.slice(0,opr_arr.length-1)] :
+            [...opr_arr.slice(0,opr_arr.length-1),appender];
         } else{
-          return (lst_chr===appender) ? opr_str : opr_str+appender;
+          console.log("lst_elm_is_a_m")/////////////////
+          return (lst_chr===appender) ? [...opr_arr] : [...opr_arr,appender];
         }
       } else {
-        return (lst_chr==='.') ? opr_str+'0'+appender : opr_str+appender;
+        console.log("lst_elm_isnt_a_m",lst_elm)///////////////////
+        if(lst_chr.indexOf('(')>0) {
+          
+          if(lst_chr[lst_chr.length-1]==='.') {
+            return [
+              ...opr_arr.slice(0,opr_arr.length-1),
+              parseFloat(lst_chr+'0'.replace('(','')),
+              appender
+            ];
+          } else {
+            return [
+              ...opr_arr.slice(0,opr_arr.length-1),
+              parseFloat(lst_chr.replace('(','')),
+              appender
+            ];
+          }
+        } else { 
+          return (lst_chr[lst_chr.length-1]==='.') ? 
+            [
+              ...opr_arr.slice(0,opr_arr.length-1),
+              parseFloat(lst_chr+'0'),
+              appender
+            ] : [...opr_arr,appender];
+        }        
       }
     } else {
-      return (opr_str.length>0) ? opr_str+appender : ((appender==='-') ? appender : ((appender==='0.') ? '0.' : '0'));
+        console.log([...opr_arr,appender])///////////////////
+
+      return (opr_arr.length===1) ? [...opr_arr,appender] : 
+        [(appender==='-') ? "(-" : ((appender==='0.') ? '0.' : [...opr_arr,appender])];
     }
   }
 
@@ -89,113 +105,98 @@ export class GeneralCalcFuncs {
     }
   }
 
-  static retrieveContextValue(lst_chr,opr_str,appender) {
-    let index = (lst_chr==="method" && ['+','/','-','*','.'].includes(appender)) ? 1 : 0;
-  
-    return opr_str.substring(0,(opr_str.length-index))+appender;
-  }
-
-  static retrieveTargetValue(whl_opr_str,tgt_chr) {
-    let opr_str_arr = this.strViseOprationToArray(whl_opr_str);
+  static retrieveTargetValue(lst_oprnd,tgt_chr) {
 
     if(['.','0'].includes(tgt_chr)) {
-      return ((tgt_chr==='.') ? this.checkForDecimals(opr_str_arr) : this.setZeros(opr_str_arr));
+      return ((tgt_chr==='.') ? this.checkForDecimals(lst_oprnd) : this.setZeros(lst_oprnd));
     } else {
       return ['×','÷'].includes(tgt_chr) ? ((tgt_chr==='×') ? '*' : '/') : tgt_chr;
     }
   }
   
-  static calculateAnswer(context_str_arr) {
-    let temp_context_arr = this.strViseOprationToArray(context_str_arr,"revert");
-    let temp_var_i = 0;
-    let temp_var_ii = 0;
-    let temp_method_i = 0;
-    let temp_method_ii = 0;
-    let temp_result = 0;
+  static calculateAnswer(opr_arr) {
+    let temp_opr_arr = opr_arr;
     let iteration_break = 0;
+    let final_result = 0;
 
-      console.log("calculateAnswer org:",
-      temp_context_arr,
-      temp_context_arr.length,
-       temp_context_arr.length>=2,
-       temp_context_arr[0],
-       /^\d+$/.test(temp_context_arr[0]));
+    if(this.GeneralFourMethods.includes(temp_opr_arr[temp_opr_arr.length-1])) {
+      temp_opr_arr.pop();
+      
+      if(this.GeneralFourMethods.includes(temp_opr_arr[temp_opr_arr.length-1])) {
+        temp_opr_arr.pop();
+      }
+    }
     
-    (temp_context_arr[temp_context_arr.length-1]==='-') && temp_context_arr.reverse();
-
-    if(temp_context_arr[0]==='-') {
-      if(temp_context_arr.length===2) {
-        temp_context_arr = temp_context_arr.filter(elm => elm!=='-').map(elm => elm*(-1));
-      } else if(temp_context_arr.length>=2 && /^\d+$/.test(temp_context_arr[0])) {
-        temp_context_arr = [...temp_context_arr.slice(1,temp_context_arr.length-1)];
-        temp_context_arr.shift((-1)*temp_context_arr[1])
-      }
-    }     
-
-      console.log("calculateAnswer alt:",temp_context_arr);
-
-    // if(this.GeneralFourMethods.includes(temp_context_arr[0])) {
-    //   temp_context_arr.shift();
+    if(temp_opr_arr.length<1) {
+      return final_result;
+    } else {
       
-    //   if(this.GeneralFourMethods.includes(temp_context_arr[0])) { 
-    //     temp_context_arr.shift();
-    //   }
-    // } else if(temp_context_arr.length===2 && this.GeneralFourMethods.includes(temp_context_arr[0])) { 
-    //   temp_context_arr.shift();
-    // }
+      console.log("finanlized stk:",opr_arr)//////////////////////////
 
-    while(temp_context_arr.length>=1) {
-      
-      if(iteration_break>100) {
-        return "ERROR!";
-      }
-      
-      if(temp_context_arr.length===1 && temp_var_i===0) {
-        let final_ans = temp_context_arr[0].toString();
+      while(temp_opr_arr.length>=1) {
+        let oprnd_i = '';
+        let oprnd_ii = '';
 
-        return (final_ans.length<=17) ? final_ans : final_ans.substring(0,15)+Math.floor(parseInt(final_ans[16]));
-      } else {
-        if(this.GeneralFourMethods.includes(temp_context_arr[0])) {
-  
-          if(temp_method_i===0 && temp_method_ii===0) {
-            temp_method_i = temp_context_arr.shift();
-            
-            if(temp_method_i!==0 && temp_method_ii===0 && this.GeneralFourMethods.includes(temp_context_arr[0])) { 
-             temp_method_ii = temp_context_arr.shift();
-            }
-          }
+        if(iteration_break>100) {
+          return "ERROR!";
+        }
+
+      console.log("itr stk:",temp_opr_arr)//////////////////////
+
+        if(temp_opr_arr.length<=2) {
+          return parseFloat(temp_opr_arr[0]);
         } else {
 
-          if(temp_var_i===0 && temp_var_ii===0) {
-            temp_var_i = temp_context_arr.shift();
-          } else if(temp_var_i!==0 && temp_var_ii===0) { 
-            temp_var_ii = temp_context_arr.shift();
-
-            if(temp_method_i!==0 && temp_method_ii===0) {
-
-              if(temp_method_ii!==0) {
-                temp_result = this.retrieveTempValue(temp_method_i,temp_var_i,temp_var_ii);
-              } else {
-                temp_result = this.retrieveTempValue(temp_method_i,temp_var_ii,temp_var_i);
-              }
-              
-              temp_context_arr.unshift(temp_result);
-            } else if(temp_method_i!==0 && temp_method_ii!==0) {
-              console.log(temp_method_i,temp_method_ii)////////////////////////
-
-              if(temp_method_i==="-") {
-                temp_result = this.retrieveTempValue("negative",temp_var_i,temp_var_ii,temp_method_ii);
-              } else {
-                temp_result = this.retrieveTempValue(temp_method_i,temp_var_i,temp_var_ii);
-              }
-              
-              temp_context_arr.unshift(temp_result);
-            } 
+          if(temp_opr_arr.indexOf('/')!==-1) {
+            let division_index = temp_opr_arr.indexOf('/');
             
-            temp_var_i = 0;
-            temp_var_ii = 0;
-            temp_method_i = 0;
-            temp_method_ii = 0;
+            oprnd_i = temp_opr_arr[division_index-1];
+            oprnd_ii = temp_opr_arr[division_index+1];
+
+            temp_opr_arr = [
+              ...temp_opr_arr.slice(0,division_index-1),
+              this.retrieveTempValue('/',oprnd_i,oprnd_ii),
+              ...temp_opr_arr.slice(division_index+2,temp_opr_arr.length)
+            ];
+          } else if(temp_opr_arr.indexOf('*')!==-1) {
+            let multiplication_index = temp_opr_arr.indexOf('*');
+            
+            oprnd_i = temp_opr_arr[multiplication_index-1];
+            oprnd_ii = temp_opr_arr[multiplication_index+1];
+
+            temp_opr_arr = [
+              ...temp_opr_arr.slice(0,multiplication_index-1),
+              this.retrieveTempValue('*',oprnd_i,oprnd_ii),
+              ...temp_opr_arr.slice(multiplication_index+2,temp_opr_arr.length)
+            ];
+          } else if(temp_opr_arr.indexOf('+')!==-1) {
+            let addition_index = temp_opr_arr.indexOf('+');
+            
+            oprnd_i = temp_opr_arr[addition_index-1];
+            oprnd_ii = temp_opr_arr[addition_index+1];
+
+            console.log("stp_i:",[...temp_opr_arr.slice(0,addition_index-1)])
+            console.log("stp_ii:",this.retrieveTempValue('+',oprnd_i,oprnd_ii))
+            console.log("stp_iii:",[...temp_opr_arr.slice(addition_index+2,temp_opr_arr.length)])
+
+            temp_opr_arr = [
+              ...temp_opr_arr.slice(0,addition_index-1),
+              this.retrieveTempValue('+',oprnd_i,oprnd_ii),
+              ...temp_opr_arr.slice(addition_index+2,temp_opr_arr.length)
+            ];
+
+            console.log("arr:",temp_opr_arr)
+          } else if(temp_opr_arr.indexOf('-')!==-1) {
+            let subtraction_index = temp_opr_arr.indexOf('-');
+            
+            oprnd_i = temp_opr_arr[subtraction_index-1];
+            oprnd_ii = temp_opr_arr[subtraction_index+1];
+
+            temp_opr_arr = [
+              ...temp_opr_arr.slice(0,subtraction_index-1),
+              this.retrieveTempValue('-',oprnd_i,oprnd_ii),
+              ...temp_opr_arr.slice(subtraction_index+2,temp_opr_arr.length)
+            ];
           }
         }
       }
@@ -203,8 +204,7 @@ export class GeneralCalcFuncs {
       iteration_break++;
     }
 
-    if(temp_context_arr.length<1) {
-      document.getElementById("operation").children[0].innerHTML = 0;
-    }
+    console.log(final_result)
+    return final_result;
   }
 }
