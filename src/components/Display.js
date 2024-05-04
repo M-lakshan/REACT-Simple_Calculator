@@ -25,7 +25,7 @@ class Display extends React.Component {
     return (
       <div id="Display">
         <h3 id="display_alt" hidden>{this.props.prvw["answer"]}</h3>
-        <h3 id="display">{this.props.prvw["answer"]}</h3>
+        <h3 id="display">{this.props.prvw["backend_operation"].join('')}</h3>
         <h4 id="operation">
           <span className="context">{this.props.prvw["user_operation"]}</span>
           <span 

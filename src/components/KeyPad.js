@@ -3,78 +3,59 @@ import { GeneralCalcFuncs } from '../modules/calculations';
 
 class KeyPad extends React.Component {
 
-  handleKeyPress(evt) {
-    // should be moved to the main app
-  }
-
   triggerAction(state_preview,target) {
     let opr_prvw_user = document.getElementById("operation").querySelector(".context");
     let opr_stk_arr = state_preview["backend_operation"];
-    let opr_stk_arr_lst_elm = (opr_stk_arr.length>0) ? opr_stk_arr[opr_stk_arr.length-1] : [];
+    let main_display = document.getElementById("display");
+    let main_display_alt = document.getElementById("display_alt");
+    let display_finalized = (main_display_alt.classList.contains("finalized"));
     
     setTimeout(() => target.classList.remove("tapped"), 200);
-    
-    if(["method","number"].includes(target.classList[1])) {
-      let main_display = document.getElementById("display");
-      let display_finalized = (main_display.classList.contains("finalized"));
-      let tgt_val = GeneralCalcFuncs.retrieveTargetValue(opr_stk_arr_lst_elm,target.innerHTML);
 
-      target.classList.add("tapped");
+    target.classList.add("tapped");
+    
+    if(target.classList[1]==="method" && display_finalized && !(target.innerHTML==='.')) {
+      main_display_alt.classList.remove("finalized");
+
+      opr_stk_arr = [
+        ((parseFloat(main_display_alt.innerHTML).toString()!=="NaN") ? parseFloat(main_display_alt.innerHTML) : 0),
+        target.innerHTML
+      ]; 
+    } else if(["method","number"].includes(target.classList[1])) {
+      let stk_lst_elm = (opr_stk_arr.length>0) ? opr_stk_arr[opr_stk_arr.length-1] : [];
+      let stk_lst_elm_chr = (stk_lst_elm.toString().length>0) ? stk_lst_elm.toString()[stk_lst_elm.toString().length-1] : [];
+      let tgt_val = GeneralCalcFuncs.retrieveTargetValue(stk_lst_elm,target.innerHTML);
+    
+      console.log("tgt:",tgt_val)//////////////////
+      
+      display_finalized && main_display.classList.remove("finalized");
 
       if(target.classList[1]==="number") {
-        display_finalized && main_display.classList.remove("finalized");
 
-        console.log("x",opr_stk_arr.length)
-        if(opr_stk_arr.length===0) {
-          opr_stk_arr = [parseFloat(tgt_val)];
-        } else if(opr_stk_arr.length===1) {
-          opr_stk_arr = [parseFloat(opr_stk_arr[0].toString()+tgt_val)];
+        if(opr_stk_arr.length<1) {
+          opr_stk_arr = [tgt_val];
         } else {
-          if(GeneralCalcFuncs.GeneralFourMethods.includes(opr_stk_arr[opr_stk_arr.length-1].toString())) {
-            opr_stk_arr = [...opr_stk_arr,parseFloat(tgt_val)]
+
+          if(GeneralCalcFuncs.GeneralFourMethods.includes(stk_lst_elm_chr)) {
+            opr_stk_arr = [ ...opr_stk_arr, tgt_val ];
           } else {
-            opr_stk_arr = [
+              opr_stk_arr = [
               ...opr_stk_arr.slice(0,opr_stk_arr.length-1),
-              parseFloat(opr_stk_arr[opr_stk_arr.length-1].toString()+tgt_val)
+              (stk_lst_elm+tgt_val)
             ];
           }
         }
-
-        opr_stk_arr = opr_stk_arr.filter(elm => elm!=='');
       } else {
 
-        if(tgt_val.toString().includes('.')) {
-
-          if(opr_stk_arr.length>0) {
-            
-            if(GeneralCalcFuncs.GeneralFourMethods.includes(opr_stk_arr[opr_stk_arr.length-1].toString())) {
-              opr_stk_arr = [...opr_stk_arr,tgt_val];
-            } else {
-              opr_stk_arr = [...opr_stk_arr.slice(0,opr_stk_arr.length-1),(opr_stk_arr[opr_stk_arr.length-1].toString()+tgt_val)];
-            }
-          } else {
-            opr_stk_arr = [...opr_stk_arr,tgt_val];
-          }
-          
-          opr_stk_arr = opr_stk_arr.filter(elm => elm!=='');
-        } else {
-          opr_stk_arr = opr_stk_arr.filter(elm => elm!=='').map(elm => (GeneralCalcFuncs.GeneralFourMethods.includes(elm)) ? elm : parseFloat(elm));
-          opr_stk_arr = GeneralCalcFuncs.retrieveDualMethods(opr_stk_arr,opr_stk_arr_lst_elm,opr_prvw_user.innerHTML.length,tgt_val);
-        } 
+        if(opr_stk_arr.length<1 && tgt_val==='-') {
+          opr_stk_arr = GeneralCalcFuncs.retrieveDualMethods(opr_stk_arr,tgt_val);
+        } else if(opr_stk_arr.length>=2) {
+          opr_stk_arr = GeneralCalcFuncs.retrieveDualMethods(opr_stk_arr,tgt_val);
+        }
       }
-      
-      console.log(opr_stk_arr)/////////////////////
+      console.log("evt:",opr_stk_arr)//////////////////
+
       opr_prvw_user.innerHTML = GeneralCalcFuncs.oprationToContext(opr_stk_arr).join('');
-
-      if(target.classList[1]==="method" && display_finalized && (tgt_val.toString().indexOf('.')<0)) {
-        let result = (parseFloat(main_display.innerHTML).toString()==="NaN") ? parseFloat(main_display.innerHTML) : 0;
-
-        main_display.classList.remove("finalized");
-        
-        opr_stk_arr = [result,tgt_val];
-        // opr_stk_arr = (tgt_val==='-') ? [result] : [result,tgt_val];
-      }
-          console.log(opr_stk_arr)/////////////////////
 
       this.props.finalizePrvw({
         answer: GeneralCalcFuncs.calculateAnswer([...opr_stk_arr]),
@@ -104,8 +85,6 @@ class KeyPad extends React.Component {
 
   componentDidMount() {
     document.querySelectorAll(".keypad_btn").forEach(btn => btn.addEventListener('click', () => this.triggerAction(this.props.prvw,btn)));
-
-    document.addEventListener('keydown', (e) => this.handleKeyPress(e));
   }
 
   render() {

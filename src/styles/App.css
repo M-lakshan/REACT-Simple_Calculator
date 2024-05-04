@@ -100,8 +100,12 @@
   color: #411557 !important;
   transition: 200ms ease-in;
 }
-#Calculator #Section_i #Display #display_alt, #Calculator #Section_i #Display #operation_alt {
-  display: none;
+#Calculator #Section_i #Display #display {
+  position: absolute;
+  z-index: -1;
+  height: 0%;
+  width: 0%;
+  opacity: 0%;
 }
 #Calculator #Section_i #KeyPad {
   display: grid;
