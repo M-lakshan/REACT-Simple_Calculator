@@ -3,105 +3,99 @@ export class GeneralCalcFuncs {
 
   static oprationToContext(opr_arr,type="user_prv") {
 
-    if(type==="dual_method_fix") {
+    if(type==="dual_method_fix" && opr_arr[0]!==undefined) {
       let opr_arr_upd = [];
-      let opr_arr_rvs = opr_arr.map(elm => (parseFloat(elm).toString()==="NaN") ? elm : parseFloat(elm)).reverse();
-            console.log("conv_arr",opr_arr_rvs)///////////////////////////
-      
-      while(opr_arr_rvs.length>=0) {
+      let opr_arr_rvs = opr_arr.map(elm => (parseFloat(elm).toString()==="NaN") ? elm : 
+        ((elm.toString()[elm.toString().length-1]) ? elm : parseFloat(elm))).reverse();
+
+      let plus_w_minus = (opr_arr_rvs.indexOf('+')+1===opr_arr_rvs.indexOf('-'));
+      let minus_w_plus = (opr_arr_rvs.indexOf('-')+1===opr_arr_rvs.indexOf('+'));
+      let plus_w_div = (opr_arr_rvs.indexOf('+')+1===opr_arr_rvs.indexOf('/'));
+      let div_w_plus = (opr_arr_rvs.indexOf('/')+1===opr_arr_rvs.indexOf('+'));
+      let plus_w_mult = (opr_arr_rvs.indexOf('+')+1===opr_arr_rvs.indexOf('*'));
+      let mult_w_plus = (opr_arr_rvs.indexOf('*')+1===opr_arr_rvs.indexOf('+'));
+      let minus_w_div = (opr_arr_rvs.indexOf('-')+1===opr_arr_rvs.indexOf('/'));
+      let div_w_minus = (opr_arr_rvs.indexOf('/')+1===opr_arr_rvs.indexOf('-'));
+      let minus_w_mult = (opr_arr_rvs.indexOf('-')+1===opr_arr_rvs.indexOf('*'));
+      let mult_w_minus = (opr_arr_rvs.indexOf('*')+1===opr_arr_rvs.indexOf('-'));
+      let div_w_mult = (opr_arr_rvs.indexOf('/')+1===opr_arr_rvs.indexOf('*'));
+      let mult_w_div = (opr_arr_rvs.indexOf('*')+1===opr_arr_rvs.indexOf('/'));
+
+      let any_ext_dual_meths = ((plus_w_minus || minus_w_plus) || (plus_w_div || div_w_plus) || (plus_w_mult || mult_w_plus)
+          || (minus_w_div || div_w_minus) || (minus_w_mult || mult_w_minus) || (div_w_mult || mult_w_div));
+
+      while(opr_arr_rvs.length>=1) {
 
         if(opr_arr_rvs.length<1) {
           return opr_arr_upd;
         } else {
-          
-          // if(!this.GeneralFourMethods.includes([...opr_arr_rvs].reverse()[0])) {
-            console.log("elm_i_not_a_method",(opr_arr_rvs[0]))///////////////////////////
+
+          if(any_ext_dual_meths) {
+            
             if(opr_arr_rvs[1]!==undefined) {
+        console.log("not un",opr_arr_rvs,opr_arr_upd)/////////////////////////
               
               if(this.GeneralFourMethods.includes(opr_arr_rvs[1])) {
+        console.log("2 a meth",opr_arr_rvs,opr_arr_upd)/////////////////////////
               
                 if(opr_arr_rvs[2]!==undefined) {
+        console.log("3 not un",opr_arr_rvs,opr_arr_upd)/////////////////////////
 
                   if(this.GeneralFourMethods.includes(opr_arr_rvs[2])) {
+        console.log("3 a meth",opr_arr_rvs,opr_arr_upd)/////////////////////////
                     
                     if(opr_arr_rvs[1]==='-') {
+              console.log("3 === (-)",opr_arr_rvs,opr_arr_upd)/////////////////////////
                       opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
                       opr_arr_rvs.shift(); //neglected_method 1
                       opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+              console.log("3 === (-) after",opr_arr_rvs,opr_arr_upd)/////////////////////////
                     } else {
+        console.log("3 !== (-)",opr_arr_rvs,opr_arr_upd)/////////////////////////
                       opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 0
-                      opr_arr_rvs.shift(); //neglected_method 1
-                      opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                      opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 1
+                      opr_arr_rvs.shift(); //neglected_method 2
+                      opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 2
+        console.log("3 !== (-) after",opr_arr_rvs,opr_arr_upd)/////////////////////////
                     }
                   } else {
+        console.log("3 num",opr_arr_rvs,opr_arr_upd)/////////////////////////
                     opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 0
                     opr_arr_upd.unshift(opr_arr_rvs.shift()) //method 1
                     opr_arr_upd.unshift(opr_arr_rvs.shift()) //number 2
+        console.log("3  num after",opr_arr_rvs,opr_arr_upd)/////////////////////////
                   }
                 } else {
+        console.log("3 un",opr_arr_rvs,opr_arr_upd)/////////////////////////
+
                   opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 0
                   opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 1
+        console.log("3 un after",opr_arr_rvs,opr_arr_upd)/////////////////////////
                 }
               } else {
+        console.log("1 not a meth",opr_arr_rvs,opr_arr_upd)/////////////////////////
                 opr_arr_rvs.shift(); //method 0
                 opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
+        console.log("1 not a meth after",opr_arr_rvs,opr_arr_upd)/////////////////////////
               }
             } else {
               opr_arr_upd.unshift(opr_arr_rvs.shift()); //first_&_last_elm 0
             }
-          // } else {
-            // console.log("elm_i_is_a_method")///////////////////////////
-            // opr_arr_rvs = [...opr_arr_rvs].reverse();
 
-            // if(opr_arr_rvs[1]!==undefined || (!this.GeneralFourMethods.includes(opr_arr_rvs[0]))) {
-            //   console.log("elm_ii_is_defined")///////////////////////////
-
-            //   if(this.GeneralFourMethods.includes(opr_arr_rvs[1])) {
-            //     console.log("elm_ii_is_a_method")///////////////////////////
-                
-            //     if(opr_arr_rvs[2]!==undefined) {
-            //       console.log("elm_iii_is_defined")///////////////////////////
-
-            //       if(opr_arr_rvs[1]==='-') {
-            //       console.log("elm_ii_is_(-)")///////////////////////////
-            //         opr_arr_rvs.shift(); //neglected_method 0
-            //         opr_arr_rvs.shift(); //neglected_method 1
-            //         opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 2 x [-1] 1
-            //       } else {
-            //       console.log("elm_ii_isnot_(-)")///////////////////////////
-            //         opr_arr_rvs.shift(); //neglected_method 0
-            //         opr_arr_rvs.shift(); //neglected_method 1
-            //         opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 2
-            //       }
-            //     } else {
-            //       console.log("r")
-            //       return this.oprationToContext([ ...opr_arr_upd, ...opr_arr_rvs ],"dual_method_fix");
-            //     }
-            //   } else {
-            //     console.log("elm_ii_i_not_a_method")///////////////////////////
-
-            //     if(opr_arr_rvs[0]==='-') {
-            //       console.log("elm_i_is_(-)")///////////////////////////
-            //       opr_arr_rvs.shift(); //neglected_method 0
-            //       opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 1 x [-1] 0
-            //     } else {
-            //       console.log("elm_i_isnot_(-)")///////////////////////////
-            //       opr_arr_rvs.shift(); //neglected_method 0
-            //       opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
-            //     }
-            //   }
-            // } else {   
-            //       console.log("r2")
-            //   return this.oprationToContext([ ...opr_arr_upd, ...opr_arr_rvs ],"dual_method_fix");
-            // }
-          // }
+            if(opr_arr_rvs.length<1) {
+              return opr_arr_upd;
+            }
+          } else {
+            return opr_arr_rvs.reverse();
+          }
         }
       }
     } else {
       if(opr_arr.length>0) {
         return opr_arr.map(elm => (this.GeneralFourMethods.includes(elm.toString())) ? 
-          String.fromCharCode(elm.toString().charCodeAt(0)) : elm)
-            .map(elm => ((elm.toString().includes('-') && elm.toString().length>1) || elm.toString().includes('.')) ? `(${elm})` : elm);
+          String.fromCharCode(elm.toString().charCodeAt(0)).replace(new RegExp(/\//, 'g'), "÷").replace(new RegExp(/\*/, 'g'), "×") : elm)
+            .map(elm => ((elm.toString().includes('-') && elm.toString().length>1) || 
+            (elm.toString().includes('.') && elm.toString().length>2)) ? `(${elm})` : elm);
       } else {
         return [];
       }
@@ -176,7 +170,6 @@ export class GeneralCalcFuncs {
     let lst_elm = (opr_arr.length>0) ? opr_arr[opr_arr.length-1] : '';
     let lst_elm_chr = lst_elm.toString()[lst_elm.toString().length-1];
 
-    console.log("DM:",lst_elm,lst_elm_chr)//////////////////
     if(opr_arr.length>=2) {
       let prv_chr = opr_arr[opr_arr.length-2].toString();
 
@@ -188,137 +181,165 @@ export class GeneralCalcFuncs {
           return [ ...opr_arr, appender ];
         }
       } else {
-          return (lst_elm_chr==='.') ? 
-            [
-              ...opr_arr.slice(0,opr_arr.length-1),
-              (lst_elm+'0'),
-              appender
-            ] : [ ...opr_arr, appender ];
+          
+        if(lst_elm_chr==='.') { 
+          return (/^\d+$/.test(prv_chr)) ? [
+            ...opr_arr.slice(0,opr_arr.length-2),
+              (lst_elm+appender)
+          ] : [ 
+            ...opr_arr.slice(0,opr_arr.length-1),
+            (lst_elm+'0'),
+            appender
+          ];
+        } else {
+          return (/^\d+$/.test(prv_chr) || (/^\d+$/.test(lst_elm) && appender==='.')) ? [
+            ...opr_arr.slice(0,opr_arr.length-1),
+              (lst_elm+appender)
+          ] : [ ...opr_arr, appender ];
+        }
       }
     } else {
-      console.log(opr_arr.length===1) ////////////
+
       if(opr_arr.length===1) {
         return [ ...opr_arr[0]+appender ];
       } else {
-        return [ appender ];
+        return (appender==='-') ? [ appender ] : [];
       }
     }
   }
+
+  static sequenceCalc(opr_arr) {
+    let temp_opr_arr = [...opr_arr];
+    let temp_var_i = '';
+    let temp_var_ii = '';
+    let temp_method = '';
+    let temp_result = '';
+    let iteration_break = 0;
+
+    while(temp_opr_arr.length>=1) {
+
+      if(iteration_break>100) {
+        return "ERROR!";
+      }
+
+      if(temp_opr_arr.length===1) {
+        break;
+      }
+
+      if(this.GeneralFourMethods.includes(temp_opr_arr[0])) {
+
+        if(temp_method==='') {
+          temp_method = temp_opr_arr.shift();
+
+          if(!this.GeneralFourMethods.includes(temp_opr_arr[0])) {
+
+            if(temp_var_i!=='' && temp_var_ii==='') {
+              temp_var_ii = temp_opr_arr.shift();
+              temp_result = this.retrieveTempValue(temp_method,temp_var_i,temp_var_ii);
+              temp_opr_arr.unshift(temp_result);
+            }
+          }
+        }
+      } else {
+
+        if(temp_var_i==='' && temp_var_ii==='') {
+          temp_var_i = temp_opr_arr.shift();
+        } else if(temp_var_i!=='' && temp_var_ii==='') { 
+          temp_var_ii = temp_opr_arr.shift();
+          temp_result = this.retrieveTempValue(temp_method,temp_var_i,temp_var_ii);
+          temp_opr_arr.unshift(temp_result);
+        }
+      }
+
+      if(temp_var_i!=='' && temp_var_ii!=='' && temp_method!=='') {
+        temp_var_i = '';
+        temp_var_ii = '';
+        temp_method = '';
+      } 
+
+      iteration_break++;
+    }
+
+    return [temp_opr_arr[0]];
+  }
   
   static calculateAnswer(opr_arr) {
-    let temp_opr_arr = opr_arr.map(elm => (this.GeneralFourMethods.includes(elm)) ? elm : 
-      ((parseFloat(elm).toString()==="NaN") ? elm : parseFloat(elm)));
     let iteration_break = 0;
     let final_result = 0;
 
-    console.log("finanlized stk:",temp_opr_arr)//////////////////////////
+    if(opr_arr.length>0) {
+      let temp_opr_arr = opr_arr.map(elm => (this.GeneralFourMethods.includes(elm)) ? elm : 
+        ((parseFloat(elm).toString()==="NaN") ? elm : parseFloat(elm)));
 
-    if(this.GeneralFourMethods.includes(temp_opr_arr[temp_opr_arr.length-1])) {
-      temp_opr_arr.pop();
-      
       if(this.GeneralFourMethods.includes(temp_opr_arr[temp_opr_arr.length-1])) {
         temp_opr_arr.pop();
-      }
-    }
-
-    console.log("pre finanlized stk:",temp_opr_arr)//////////////////////////
-    temp_opr_arr = this.oprationToContext(temp_opr_arr,"dual_method_fix");
-    console.log("optimized stk:",temp_opr_arr)//////////////////////////
-    console.log("\n")//////////////////////////
-
-    if(temp_opr_arr.length<1) {
-      return final_result;
-    } else {
-      let precedence = (temp_opr_arr.includes('/') && temp_opr_arr.includes('*') && temp_opr_arr.includes('+') && temp_opr_arr.includes('-'));
-
-      while(temp_opr_arr.length>=1) {
-        let oprtr = [];
-        let oprnd_i = '';
-        let oprnd_ii = '';
-
-        if(iteration_break>100) {
-          return "ERROR!";
-        }
-
-      // console.log("itr stk:",temp_opr_arr)//////////////////////
-
-        if(temp_opr_arr.length<=2) {
-          return this.retrieveTempValue(17,temp_opr_arr[0],final_result);
-        } else {
-
-          if(temp_opr_arr[0]==='-') {
-            temp_opr_arr = [
-              parseFloat(temp_opr_arr[1])*(-1),
-              ...temp_opr_arr.slice(2,temp_opr_arr.length)
-            ];
-          }
-          // if(precedence || temp_opr_arr.includes('*') || temp_opr_arr.includes('/')) {
-
-            if(temp_opr_arr.includes('/')) {
-              oprtr = ['/',temp_opr_arr.indexOf('/')];
-            } else if(temp_opr_arr.includes('*')) {
-              oprtr = ['*',temp_opr_arr.indexOf('*')];
-            } else if(temp_opr_arr.includes('+')) {
-              oprtr = ['+',temp_opr_arr.indexOf('+')];
-            } else if(temp_opr_arr.includes('-')) {
-              oprtr = ['-',temp_opr_arr.indexOf('-')];
-            }
-            
-            oprnd_i = temp_opr_arr[oprtr[1]-1];
-            oprnd_ii = temp_opr_arr[oprtr[1]+1];
-            
-            console.log("stp_i:",[...temp_opr_arr.slice(0,oprtr[1]-1)])
-            console.log("stp_ii:",this.retrieveTempValue(oprtr[0],oprnd_i,oprnd_ii))
-            console.log("stp_iii:",[...temp_opr_arr.slice(oprtr[1]+2,temp_opr_arr.length)])
-            console.log("exp:",this.retrieveTempValue(17,parseFloat(this.retrieveTempValue(oprtr[0],oprnd_i,oprnd_ii)),final_result))
-
-            temp_opr_arr = [
-              ...temp_opr_arr.slice(0,oprtr[1]-1),
-              this.retrieveTempValue(17,parseFloat(this.retrieveTempValue(oprtr[0],oprnd_i,oprnd_ii)),final_result),
-              ...temp_opr_arr.slice(oprtr[1]+2,temp_opr_arr.length)
-            ];
-            
-            oprtr = [];
-            console.log("arr:",temp_opr_arr)/////////////
-            console.log("\n")/////////////
-          // } else {
-
-            // if(this.GeneralFourMethods.includes(temp_opr_arr[iteration_break].toString()) && oprtr.length>0) {
-            //   oprtr = [temp_opr_arr[iteration_break]];
-            // } else {
-              
-            //   if(this.GeneralFourMethods.includes(temp_opr_arr[iteration_break].toString())) {
-                
-            //     if(temp_opr_arr[iteration_break].toString()!=='-') {
-            //       oprtr = [temp_opr_arr[iteration_break]];
-            //     } else {
-            //       temp_opr_arr = [
-            //         ...temp_opr_arr.slice(0,temp_opr_arr.indexOf(temp_opr_arr[iteration_break])),
-            //         (-1)*temp_opr_arr[iteration_break+1],
-            //         ...temp_opr_arr.slice(temp_opr_arr.indexOf(temp_opr_arr[iteration_break+1]),temp_opr_arr.length)
-            //       ];
-            //     } 
-            //   } else {
-            //     if(oprnd_i==='') {
-            //       oprnd_i = [temp_opr_arr[iteration_break]];
-            //     } else {
-            //       oprnd_ii = [temp_opr_arr[iteration_break]];
-
-            //       temp_opr_arr = [
-            //         this.retrieveTempValue(17,parseFloat(this.retrieveTempValue(oprtr[0],oprnd_i,oprnd_ii)),final_result),
-            //         ...temp_opr_arr.slice(3,temp_opr_arr.length)
-            //       ];
-
-            //       oprtr = [];
-            //       oprnd_i = '';
-            //       oprnd_ii = '';
-            //     }
-            //   }
-            // }
-          // }
-        }
         
-        iteration_break++;
+        if(this.GeneralFourMethods.includes(temp_opr_arr[temp_opr_arr.length-1])) {
+          temp_opr_arr.pop();
+        }
+      }
+
+      console.log("pre finanlized stk:",temp_opr_arr)//////////////////////////
+
+      temp_opr_arr = (temp_opr_arr) ? this.oprationToContext(temp_opr_arr,"dual_method_fix") : [];
+      console.log("optimized stk:",temp_opr_arr)//////////////////////////
+      console.log("\n")//////////////////////////
+      console.log(temp_opr_arr.length<1,temp_opr_arr===undefined)//////////////////////////
+
+      if(temp_opr_arr.length<1 || temp_opr_arr===undefined) {
+        return final_result;
+      } else {
+        let precedence = (temp_opr_arr.includes('/') || temp_opr_arr.includes('*'));
+
+        while(temp_opr_arr.length>=1) {
+          let oprtr = [];
+          let oprnd_i = '';
+          let oprnd_ii = '';
+
+          if(iteration_break>10) {
+            return "ERROR!";
+          }
+
+          if(temp_opr_arr.length<=2) {
+            return this.retrieveTempValue(17,temp_opr_arr[0],final_result);
+          } else {
+
+            if(temp_opr_arr[0]==='-') {
+              temp_opr_arr = [
+                parseFloat(temp_opr_arr[1])*(-1),
+                ...temp_opr_arr.slice(2,temp_opr_arr.length)
+              ];
+            }
+
+            if(precedence || temp_opr_arr.includes('*') || temp_opr_arr.includes('/')) {
+
+              if(temp_opr_arr.includes('/')) {
+                oprtr = ['/',temp_opr_arr.indexOf('/')];
+              } else if(temp_opr_arr.includes('*')) {
+                oprtr = ['*',temp_opr_arr.indexOf('*')];
+              } else if(temp_opr_arr.includes('+')) {
+                oprtr = ['+',temp_opr_arr.indexOf('+')];
+              } else if(temp_opr_arr.includes('-')) {
+                oprtr = ['-',temp_opr_arr.indexOf('-')];
+              }
+              
+              oprnd_i = temp_opr_arr[oprtr[1]-1];
+              oprnd_ii = temp_opr_arr[oprtr[1]+1];
+    
+              temp_opr_arr = [
+                ...temp_opr_arr.slice(0,oprtr[1]-1),
+                this.retrieveTempValue(17,parseFloat(this.retrieveTempValue(oprtr[0],oprnd_i,oprnd_ii)),final_result),
+                ...temp_opr_arr.slice(oprtr[1]+2,temp_opr_arr.length)
+              ];
+              
+              oprtr = [];
+            } else {
+              temp_opr_arr = this.sequenceCalc(temp_opr_arr);
+            }
+          }
+          
+          iteration_break++;
+        }
       }
     }
 

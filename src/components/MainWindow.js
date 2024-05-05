@@ -9,7 +9,8 @@ class MainWindow extends React.Component {
     this.finalizeCalculation = this.finalizeCalculation.bind(this);
     this.state = {
       preview: {
-        answer: 0,
+        final_answer: 0,
+        calculation: "",
         user_operation: "",
         backend_operation: []
       }

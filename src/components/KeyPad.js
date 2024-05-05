@@ -15,18 +15,30 @@ class KeyPad extends React.Component {
     target.classList.add("tapped");
     
     if(target.classList[1]==="method" && display_finalized && !(target.innerHTML==='.')) {
-      main_display_alt.classList.remove("finalized");
-
+      let tgt_val = GeneralCalcFuncs.retrieveTargetValue(parseFloat(main_display_alt.innerHTML),target.innerHTML);
+      
       opr_stk_arr = [
         ((parseFloat(main_display_alt.innerHTML).toString()!=="NaN") ? parseFloat(main_display_alt.innerHTML) : 0),
-        target.innerHTML
-      ]; 
+        tgt_val
+      ];
+      
+      main_display_alt.classList.remove("finalized");
+      opr_prvw_user.innerHTML = GeneralCalcFuncs.oprationToContext(opr_stk_arr).join('');
+      
+      setTimeout(() => main_display.innerHTML = main_display_alt.innerHTML+tgt_val, 10);
+
+      this.props.finalizePrvw({
+        final_answer: GeneralCalcFuncs.calculateAnswer([...opr_stk_arr]),
+        calculation: main_display_alt.innerHTML+tgt_val,
+        backend_operation: opr_stk_arr,
+        user_operation: opr_prvw_user.innerHTML
+      });
     } else if(["method","number"].includes(target.classList[1])) {
       let stk_lst_elm = (opr_stk_arr.length>0) ? opr_stk_arr[opr_stk_arr.length-1] : [];
       let stk_lst_elm_chr = (stk_lst_elm.toString().length>0) ? stk_lst_elm.toString()[stk_lst_elm.toString().length-1] : [];
       let tgt_val = GeneralCalcFuncs.retrieveTargetValue(stk_lst_elm,target.innerHTML);
     
-      console.log("tgt:",tgt_val)//////////////////
+      console.log("tgt:",target.classList[1],tgt_val)//////////////////
       
       display_finalized && main_display.classList.remove("finalized");
 
@@ -51,31 +63,58 @@ class KeyPad extends React.Component {
           opr_stk_arr = GeneralCalcFuncs.retrieveDualMethods(opr_stk_arr,tgt_val);
         } else if(opr_stk_arr.length>=2) {
           opr_stk_arr = GeneralCalcFuncs.retrieveDualMethods(opr_stk_arr,tgt_val);
+        } else {
+          console.log("dec:",(opr_stk_arr.length>1),(opr_stk_arr.length===1));
+
+          if(opr_stk_arr.length>1) {
+            opr_stk_arr = [ ...opr_stk_arr, (opr_stk_arr[opr_stk_arr.length-1]+tgt_val) ];
+          } else {
+
+            if(opr_stk_arr.length===1) {
+
+              if(tgt_val.includes('.')) {
+                opr_stk_arr = (opr_stk_arr[0].includes('.')) ? [ opr_stk_arr[0] ] : [[ opr_stk_arr[0]+tgt_val ]];
+              } else {
+                opr_stk_arr = [ opr_stk_arr[0],tgt_val ];
+              }
+            } else {
+              opr_stk_arr = [ tgt_val ];
+            }
+          }
         }
       }
       console.log("evt:",opr_stk_arr)//////////////////
 
       opr_prvw_user.innerHTML = GeneralCalcFuncs.oprationToContext(opr_stk_arr).join('');
 
+let ans = GeneralCalcFuncs.calculateAnswer([...opr_stk_arr]);//////////////
       this.props.finalizePrvw({
-        answer: GeneralCalcFuncs.calculateAnswer([...opr_stk_arr]),
+        // answer: GeneralCalcFuncs.calculateAnswer([...opr_stk_arr]),
+        final_answer: ans,
+        calculation: opr_stk_arr.join(''),
         backend_operation: opr_stk_arr,
         user_operation: opr_prvw_user.innerHTML
       });
     } else {
 
       if(target.id==="equals") {
-        opr_prvw_user.parentElement.previousElementSibling.classList.add("finalized");
+        main_display_alt.classList.add("finalized");
+
+        this.props.finalizePrvw({
+          ...state_preview,
+          calculation: main_display_alt.innerHTML
+        });
 
         this.props.finalizeCalc({
           ans: GeneralCalcFuncs.calculateAnswer([...opr_stk_arr]),
           opr: opr_prvw_user.innerHTML
         });
       } else {
-        opr_prvw_user.parentElement.previousElementSibling.classList.remove("finalized");
+        main_display_alt.classList.remove("finalized");
         
         this.props.finalizePrvw({
-          answer: GeneralCalcFuncs.calculateAnswer([]),
+          final_answer: GeneralCalcFuncs.calculateAnswer([]),
+          calculation: 0,
           backend_operation: [],
           user_operation: ''
         });
