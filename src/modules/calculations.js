@@ -225,7 +225,6 @@ export class GeneralCalcFuncs {
       if(this.GeneralFourMethods.includes(lst_elm_chr)) {
         
         if(this.GeneralFourMethods.includes(prv_chr)) {
-          // return (prv_chr===appender) ? [ ...opr_arr ] : [ ...opr_arr.slice(0,opr_arr.length-1), appender ];
 
           /* FCC required style */
           if(opr_arr.length>=3) {
