@@ -49,143 +49,52 @@ export class GeneralCalcFuncs {
                       if(this.GeneralFourMethods.includes(opr_arr_rvs[3])) {
                         
                         if(opr_arr_rvs[4]!==undefined) {
-                          
-                          if(opr_arr_rvs[1]===opr_arr_rvs[2] && opr_arr_rvs[2]===opr_arr_rvs[3]) {//[5,-,-,-,5]
-                            
-                            if(opr_arr_rvs[1]==='-') {//[5,-,-,-,5]
-                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
-                              opr_arr_rvs.shift(); //neglected_method 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-                              opr_arr_rvs.shift(); //neglected_method 3
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 4
-                              //[(-5),_,-,_,5]
-                            } else { //[5,+,-,x,5]
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 0
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 1
-                              opr_arr_rvs.shift(); //neglected_method 2
-                              opr_arr_rvs.shift(); //neglected_method 3
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 4
-                            } //[5,+,_,_,5]
-                          } else {
-                            
-                            if(opr_arr_rvs[1]==='-') {//[5,-,+,x,5]
-                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
-                              opr_arr_rvs.shift(); //neglected_method 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-                              opr_arr_rvs.shift(); //neglected_method 4
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 4
-                              //[(-5),+,_,5]
-                            } else { //[5,+,-,x,5]
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-                              opr_arr_rvs.shift(); //neglected_method 2
-                              opr_arr_rvs.shift(); //neglected_method 3
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 4
-                              //[5,+,_,_,5]
-                            }
+  
+                          if(opr_arr_rvs[1]==='-') {//[5,-,+,x,5]
+                            opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
+                            opr_arr_rvs.shift(); //neglected_method 1
+                            opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                            opr_arr_rvs.shift(); //neglected_method 4
+                            opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 4
+                            //[(-5),+,_,5]
+                          } else { //[5,+,-,x,5]
+                            opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
+                            opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                            opr_arr_rvs.shift(); //neglected_method 2
+                            opr_arr_rvs.shift(); //neglected_method 3
+                            opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 4
+                            //[5,+,_,_,5]
                           }
                         } else {
-        
-                          if(opr_arr_rvs[1]===opr_arr_rvs[2]) {
-                            
-                            if(opr_arr_rvs[1]==='-') { //[5,-,-,5]
-                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
-                              opr_arr_rvs.shift(); //neglected_method 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
-                              //[(-5),_,-,5]
-                            } else { //[5,+,+,5]
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 1
-                              opr_arr_rvs.shift(); //neglected_method 2
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
-                              //[5,+,_,5]
-                            }
-                          } else {
-                            
-                            if(opr_arr_rvs[1]==='-') { //[5,-,+,5]
-                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
-                              opr_arr_rvs.shift(); //neglected_method 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
-                              //[(-5),_,+,5]
-                            } else { //[5,+,-,5]
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-                              opr_arr_rvs.shift(); //neglected_method 2
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
-                              //[5,_,-,5]
-                            }
+
+                          if(opr_arr_rvs[1]==='-') { //[5,-,+,5]
+                            opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
+                            opr_arr_rvs.shift(); //neglected_method 1
+                            opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                            opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                            //[(-5),_,+,5]
+                          } else { //[5,+,-,5]
+                            opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
+                            opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                            opr_arr_rvs.shift(); //neglected_method 2
+                            opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                            //[5,_,-,5]
                           }
                         }
                       } else {
   
-                        if(opr_arr_rvs[4]!==undefined) {
-
-                          if(opr_arr_rvs[1]===opr_arr_rvs[2]) {
-                            
-                            if(opr_arr_rvs[1]==='-') { //[5,-,-,5]
-                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
-                              opr_arr_rvs.shift(); //neglected_method 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
-                              //[(-5),_,-,5]
-                            } else { //[5,+,+,5]
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 1
-                              opr_arr_rvs.shift(); //neglected_method 2
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
-                              //[5,+,_,5]
-                            }
-                          } else {
-                            
-                            if(opr_arr_rvs[1]==='-') { //[5,-,+,5]
-                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
-                              opr_arr_rvs.shift(); //neglected_method 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
-                              //[(-5),_,+,5]
-                            } else { //[5,+,-,5]
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-                              opr_arr_rvs.shift(); //neglected_method 2
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
-                              //[5,_,-,5]
-                            }
-                          }
-                        } else {
-
-                          if(opr_arr_rvs[1]===opr_arr_rvs[2]) {
-
-                            if(opr_arr_rvs[1]==='-') { //[5,-,-,5]
-                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
-                              opr_arr_rvs.shift(); //neglected_method 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
-                              //[(-5),_,-,5]
-                            } else { //[5,+,+,5]
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 1
-                              opr_arr_rvs.shift(); //neglected_method 2
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
-                              //[5,+,_,5]
-                            }
-                          } else {
-                            
-                            if(opr_arr_rvs[1]==='-') { //[5,-,+,5]
-                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
-                              opr_arr_rvs.shift(); //neglected_method 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
-                              //[(-5),_,+,5]
-                            } else { //[5,+,-,5]
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-                              opr_arr_rvs.shift(); //neglected_method 2
-                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
-                              //[5,_,-,5]
-                            }
-                          }
+                        if(opr_arr_rvs[1]==='-') { //[5,-,+,5]
+                          opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
+                          opr_arr_rvs.shift(); //neglected_method 1
+                          opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                          opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                          //[(-5),_,+,5]
+                        } else { //[5,+,-,5]
+                          opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
+                          opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                          opr_arr_rvs.shift(); //neglected_method 2
+                          opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                          //[5,_,-,5]
                         }
                       }
                     } else {
