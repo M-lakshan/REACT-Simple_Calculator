@@ -35,71 +35,21 @@ export class GeneralCalcFuncs {
         } else {
 
           if(any_ext_dual_meths) {
-/*          
-            if(opr_arr_rvs[1]!==undefined) {
-        console.log("not un",opr_arr_rvs,opr_arr_upd)/////////////////////////
-              
-              if(this.GeneralFourMethods.includes(opr_arr_rvs[1])) {
-        console.log("2 a meth",opr_arr_rvs,opr_arr_upd)/////////////////////////
-              
-                if(opr_arr_rvs[2]!==undefined) {
-        console.log("3 not un",opr_arr_rvs,opr_arr_upd)/////////////////////////
-
-                  if(this.GeneralFourMethods.includes(opr_arr_rvs[2])) {
-        console.log("3 a meth",opr_arr_rvs,opr_arr_upd)/////////////////////////
                     
-                    if(opr_arr_rvs[1]==='-') {
-              console.log("3 === (-)",opr_arr_rvs,opr_arr_upd)/////////////////////////
-                      opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
-                      opr_arr_rvs.shift(); //neglected_method 1
-                      opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
-              console.log("3 === (-) after",opr_arr_rvs,opr_arr_upd)/////////////////////////
-                    } else {
-        console.log("3 !== (-)",opr_arr_rvs,opr_arr_upd)/////////////////////////
-                      opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 0
-                      opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 1
-                      opr_arr_rvs.shift(); //neglected_method 2
-                      opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 2
-        console.log("3 !== (-) after",opr_arr_rvs,opr_arr_upd)/////////////////////////
-                    }
-                  } else {
-        console.log("3 num",opr_arr_rvs,opr_arr_upd)/////////////////////////
-                    opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 0
-                    opr_arr_upd.unshift(opr_arr_rvs.shift()) //method 1
-                    opr_arr_upd.unshift(opr_arr_rvs.shift()) //number 2
-        console.log("3  num after",opr_arr_rvs,opr_arr_upd)/////////////////////////
-                  }
-                } else {
-        console.log("3 un",opr_arr_rvs,opr_arr_upd)/////////////////////////
-
-                  opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 0
-                  opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 1
-        console.log("3 un after",opr_arr_rvs,opr_arr_upd)/////////////////////////
-                }
-              } else {
-        console.log("1 not a meth",opr_arr_rvs,opr_arr_upd)/////////////////////////
-                opr_arr_rvs.shift(); //method 0
-                opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
-        console.log("1 not a meth after",opr_arr_rvs,opr_arr_upd)/////////////////////////
-              }
-            } else {
-              opr_arr_upd.unshift(opr_arr_rvs.shift()); //first_&_last_elm 0
-            }
-*/                        
             if(opr_arr_rvs[1]!==undefined) {
-              console.log(1)
+              
               if(this.GeneralFourMethods.includes(opr_arr_rvs[1])) {
-                console.log(2)
+                
                 if(opr_arr_rvs[2]!==undefined) {
-                  console.log(3)
+                  
                   if(this.GeneralFourMethods.includes(opr_arr_rvs[2])) {
-                    console.log(4)
+                    
                     if(opr_arr_rvs[3]!==undefined) {
-                      console.log(5)
+                      
                       if(this.GeneralFourMethods.includes(opr_arr_rvs[3])) {
-                        console.log(6)
+                        
                         if(opr_arr_rvs[4]!==undefined) {
-                          console.log(7)
+                          
                           if(opr_arr_rvs[1]===opr_arr_rvs[2] && opr_arr_rvs[2]===opr_arr_rvs[3]) {//[5,-,-,-,5]
                             
                             if(opr_arr_rvs[1]==='-') {//[5,-,-,-,5]
@@ -477,12 +427,7 @@ export class GeneralCalcFuncs {
         }
       }
 
-      console.log("pre finanlized stk:",temp_opr_arr)//////////////////////////
-
       temp_opr_arr = (temp_opr_arr) ? this.oprationToContext(temp_opr_arr,"dual_method_fix") : [];
-      console.log("optimized stk:",temp_opr_arr)//////////////////////////
-      console.log("\n")//////////////////////////
-      console.log(temp_opr_arr.length<1,temp_opr_arr===undefined)//////////////////////////
 
       if(temp_opr_arr.length<1 || temp_opr_arr===undefined) {
         return final_result;
