@@ -20,9 +20,13 @@ export class GeneralCalcFuncs {
       let mult_w_minus = (opr_arr_rvs.indexOf('*')+1===opr_arr_rvs.indexOf('-'));
       let div_w_mult = (opr_arr_rvs.indexOf('/')+1===opr_arr_rvs.indexOf('*'));
       let mult_w_div = (opr_arr_rvs.indexOf('*')+1===opr_arr_rvs.indexOf('/'));
+      let two_mult = (opr_arr_rvs[opr_arr_rvs.indexOf('*')+1]===opr_arr_rvs[opr_arr_rvs.indexOf('*')]);
+      let two_div = (opr_arr_rvs[opr_arr_rvs.indexOf('/')+1]===opr_arr_rvs[opr_arr_rvs.indexOf('/')]);
+      let two_plus = (opr_arr_rvs[opr_arr_rvs.indexOf('+')+1]===opr_arr_rvs[opr_arr_rvs.indexOf('+')]);
+      let two_minus = (opr_arr_rvs[opr_arr_rvs.indexOf('-')+1]===opr_arr_rvs[opr_arr_rvs.indexOf('-')]);
 
       let any_ext_dual_meths = ((plus_w_minus || minus_w_plus) || (plus_w_div || div_w_plus) || (plus_w_mult || mult_w_plus)
-          || (minus_w_div || div_w_minus) || (minus_w_mult || mult_w_minus) || (div_w_mult || mult_w_div));
+          || (minus_w_div || div_w_minus) || (minus_w_mult || mult_w_minus) || (div_w_mult || mult_w_div) || (two_minus || two_mult || two_div || two_plus));
 
       while(opr_arr_rvs.length>=1) {
 
@@ -31,7 +35,7 @@ export class GeneralCalcFuncs {
         } else {
 
           if(any_ext_dual_meths) {
-            
+/*          
             if(opr_arr_rvs[1]!==undefined) {
         console.log("not un",opr_arr_rvs,opr_arr_upd)/////////////////////////
               
@@ -77,6 +81,192 @@ export class GeneralCalcFuncs {
                 opr_arr_rvs.shift(); //method 0
                 opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
         console.log("1 not a meth after",opr_arr_rvs,opr_arr_upd)/////////////////////////
+              }
+            } else {
+              opr_arr_upd.unshift(opr_arr_rvs.shift()); //first_&_last_elm 0
+            }
+*/                        
+            if(opr_arr_rvs[1]!==undefined) {
+              console.log(1)
+              if(this.GeneralFourMethods.includes(opr_arr_rvs[1])) {
+                console.log(2)
+                if(opr_arr_rvs[2]!==undefined) {
+                  console.log(3)
+                  if(this.GeneralFourMethods.includes(opr_arr_rvs[2])) {
+                    console.log(4)
+                    if(opr_arr_rvs[3]!==undefined) {
+                      console.log(5)
+                      if(this.GeneralFourMethods.includes(opr_arr_rvs[3])) {
+                        console.log(6)
+                        if(opr_arr_rvs[4]!==undefined) {
+                          console.log(7)
+                          if(opr_arr_rvs[1]===opr_arr_rvs[2] && opr_arr_rvs[2]===opr_arr_rvs[3]) {//[5,-,-,-,5]
+                            
+                            if(opr_arr_rvs[1]==='-') {//[5,-,-,-,5]
+                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
+                              opr_arr_rvs.shift(); //neglected_method 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                              opr_arr_rvs.shift(); //neglected_method 3
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 4
+                              //[(-5),_,-,_,5]
+                            } else { //[5,+,-,x,5]
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 0
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 1
+                              opr_arr_rvs.shift(); //neglected_method 2
+                              opr_arr_rvs.shift(); //neglected_method 3
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 4
+                            } //[5,+,_,_,5]
+                          } else {
+                            
+                            if(opr_arr_rvs[1]==='-') {//[5,-,+,x,5]
+                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
+                              opr_arr_rvs.shift(); //neglected_method 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                              opr_arr_rvs.shift(); //neglected_method 4
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 4
+                              //[(-5),+,_,5]
+                            } else { //[5,+,-,x,5]
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                              opr_arr_rvs.shift(); //neglected_method 2
+                              opr_arr_rvs.shift(); //neglected_method 3
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 4
+                              //[5,+,_,_,5]
+                            }
+                          }
+                        } else {
+        
+                          if(opr_arr_rvs[1]===opr_arr_rvs[2]) {
+                            
+                            if(opr_arr_rvs[1]==='-') { //[5,-,-,5]
+                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
+                              opr_arr_rvs.shift(); //neglected_method 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                              //[(-5),_,-,5]
+                            } else { //[5,+,+,5]
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 1
+                              opr_arr_rvs.shift(); //neglected_method 2
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                              //[5,+,_,5]
+                            }
+                          } else {
+                            
+                            if(opr_arr_rvs[1]==='-') { //[5,-,+,5]
+                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
+                              opr_arr_rvs.shift(); //neglected_method 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                              //[(-5),_,+,5]
+                            } else { //[5,+,-,5]
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                              opr_arr_rvs.shift(); //neglected_method 2
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                              //[5,_,-,5]
+                            }
+                          }
+                        }
+                      } else {
+  
+                        if(opr_arr_rvs[4]!==undefined) {
+
+                          if(opr_arr_rvs[1]===opr_arr_rvs[2]) {
+                            
+                            if(opr_arr_rvs[1]==='-') { //[5,-,-,5]
+                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
+                              opr_arr_rvs.shift(); //neglected_method 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                              //[(-5),_,-,5]
+                            } else { //[5,+,+,5]
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 1
+                              opr_arr_rvs.shift(); //neglected_method 2
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                              //[5,+,_,5]
+                            }
+                          } else {
+                            
+                            if(opr_arr_rvs[1]==='-') { //[5,-,+,5]
+                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
+                              opr_arr_rvs.shift(); //neglected_method 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                              //[(-5),_,+,5]
+                            } else { //[5,+,-,5]
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                              opr_arr_rvs.shift(); //neglected_method 2
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                              //[5,_,-,5]
+                            }
+                          }
+                        } else {
+
+                          if(opr_arr_rvs[1]===opr_arr_rvs[2]) {
+
+                            if(opr_arr_rvs[1]==='-') { //[5,-,-,5]
+                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
+                              opr_arr_rvs.shift(); //neglected_method 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                              //[(-5),_,-,5]
+                            } else { //[5,+,+,5]
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 1
+                              opr_arr_rvs.shift(); //neglected_method 2
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                              //[5,+,_,5]
+                            }
+                          } else {
+                            
+                            if(opr_arr_rvs[1]==='-') { //[5,-,+,5]
+                              opr_arr_upd.unshift((-1)*opr_arr_rvs.shift()); //number_negated 0 x [-1] 1
+                              opr_arr_rvs.shift(); //neglected_method 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                              //[(-5),_,+,5]
+                            } else { //[5,+,-,5]
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                              opr_arr_rvs.shift(); //neglected_method 2
+                              opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                              //[5,_,-,5]
+                            }
+                          }
+                        }
+                      }
+                    } else {
+
+                      if(opr_arr_rvs[1]===opr_arr_rvs[2]) { //[5,+,+,5]
+                        opr_arr_upd.unshift(opr_arr_rvs.shift()); //numebr 0
+                        opr_arr_rvs.shift(); //neglected_method 1
+                        opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                        opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                        //[5,_,+,5]
+                      } else { //[5,+,-,5]
+                        opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 1
+                        opr_arr_upd.unshift(opr_arr_rvs.shift()); //method 2
+                        opr_arr_rvs.shift(); //neglected_method 2
+                        opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 3
+                        //[5,_,-,5]
+                      }
+                    }  
+                  } else {
+                    //[5,x]
+                    opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 0
+                    opr_arr_rvs.shift(); //method 1
+                    //[5]
+                  }
+                } else {
+                  //[5]
+                  opr_arr_upd.unshift(opr_arr_rvs.shift()); //number 0
+                  //[5]
+                }
+              } else {
+                opr_arr_upd.unshift(opr_arr_rvs.shift()); //first_&_last_elm 0
               }
             } else {
               opr_arr_upd.unshift(opr_arr_rvs.shift()); //first_&_last_elm 0
@@ -176,7 +366,15 @@ export class GeneralCalcFuncs {
       if(this.GeneralFourMethods.includes(lst_elm_chr)) {
         
         if(this.GeneralFourMethods.includes(prv_chr)) {
-          return (prv_chr===appender) ? [ ...opr_arr ] : [ ...opr_arr.slice(0,opr_arr.length-1), appender ];
+          // return (prv_chr===appender) ? [ ...opr_arr ] : [ ...opr_arr.slice(0,opr_arr.length-1), appender ];
+
+          /* FCC required style */
+          if(opr_arr.length>=3) {
+            return (this.GeneralFourMethods.includes(opr_arr[opr_arr.length-3].toString())) ? [ ...opr_arr ] : [ ...opr_arr, appender ];
+          } else {
+            return [ ...opr_arr, appender ];
+          }
+          /* FCC required style */
         } else{
           return [ ...opr_arr, appender ];
         }

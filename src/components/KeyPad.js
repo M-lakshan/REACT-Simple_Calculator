@@ -87,9 +87,9 @@ class KeyPad extends React.Component {
 
       opr_prvw_user.innerHTML = GeneralCalcFuncs.oprationToContext(opr_stk_arr).join('');
 
-let ans = GeneralCalcFuncs.calculateAnswer([...opr_stk_arr]);//////////////
+      let ans = GeneralCalcFuncs.calculateAnswer([...opr_stk_arr]);
+
       this.props.finalizePrvw({
-        // answer: GeneralCalcFuncs.calculateAnswer([...opr_stk_arr]),
         final_answer: ans,
         calculation: opr_stk_arr.join(''),
         backend_operation: opr_stk_arr,
