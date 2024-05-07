@@ -38,8 +38,6 @@ class KeyPad extends React.Component {
       let stk_lst_elm_chr = (stk_lst_elm.toString().length>0) ? stk_lst_elm.toString()[stk_lst_elm.toString().length-1] : [];
       let tgt_val = GeneralCalcFuncs.retrieveTargetValue(stk_lst_elm,target.innerHTML);
     
-      console.log("tgt:",target.classList[1],tgt_val)//////////////////
-      
       display_finalized && main_display.classList.remove("finalized");
 
       if(target.classList[1]==="number") {
@@ -64,7 +62,6 @@ class KeyPad extends React.Component {
         } else if(opr_stk_arr.length>=2) {
           opr_stk_arr = GeneralCalcFuncs.retrieveDualMethods(opr_stk_arr,tgt_val);
         } else {
-          console.log("dec:",(opr_stk_arr.length>1),(opr_stk_arr.length===1));
 
           if(opr_stk_arr.length>1) {
             opr_stk_arr = [ ...opr_stk_arr, (opr_stk_arr[opr_stk_arr.length-1]+tgt_val) ];
@@ -83,7 +80,6 @@ class KeyPad extends React.Component {
           }
         }
       }
-      console.log("evt:",opr_stk_arr)//////////////////
 
       opr_prvw_user.innerHTML = GeneralCalcFuncs.oprationToContext(opr_stk_arr).join('');
 
